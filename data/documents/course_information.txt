@@ -1,0 +1,8 @@
+AI and Machine Learning Course
+
+The course introduces Python programming, data analysis,
+machine learning, artificial intelligence, and retrieval-augmented
+generation.
+
+Important topics include Python, NumPy, Pandas, SQL, machine learning,
+LLMs, embeddings, RAG, and AI agents.
