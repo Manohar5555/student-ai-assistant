@@ -1,23 +1,22 @@
-import os
+from pathlib import Path
 
 
 def load_documents():
-    folder = "data/documents"
+    project_root = Path(__file__).parent.parent
+    folder = project_root / "data" / "documents"
 
-    files = os.listdir(folder)
+    files = folder.iterdir()
 
     documents = []
 
     for file in files:
-        if file.endswith(".txt"):
-            path = os.path.join(folder, file)
-
-            with open(path, "r") as f:
+        if file.suffix == ".txt":
+            with open(file, "r", encoding="utf-8") as f:
                 text = f.read()
 
             document = {
                 "text": text,
-                "source": file
+                "source": file.name
             }
 
             documents.append(document)
