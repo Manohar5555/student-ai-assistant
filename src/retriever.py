@@ -1,4 +1,5 @@
 import numpy as np
+
 from src.embeddings import create_embeddings
 
 
@@ -6,7 +7,7 @@ def cosine_similarity(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
 
-def retrieve(query, vector_store, top_k=2):
+def retrieve(query, vector_store, top_k=2, min_score=0.55):
     query_embedding = create_embeddings([query])[0]
 
     results = []
@@ -17,11 +18,12 @@ def retrieve(query, vector_store, top_k=2):
             item["embedding"]
         )
 
-        results.append({
-            "text": item["text"],
-            "source": item["source"],
-            "score": score
-        })
+        if score >= min_score:
+            results.append({
+                "text": item["text"],
+                "source": item["source"],
+                "score": score
+            })
 
     results.sort(key=lambda x: x["score"], reverse=True)
 

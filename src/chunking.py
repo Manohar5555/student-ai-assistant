@@ -1,31 +1,50 @@
-def chunk_text(text, chunk_size=300, overlap=50):
+def chunk_text(text, chunk_size=100, overlap=20):
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than 0")
+
+    if overlap < 0 or overlap >= chunk_size:
+        raise ValueError("overlap must be between 0 and chunk_size")
+
+    words = text.split()
     chunks = []
 
     step = chunk_size - overlap
 
-    for i in range(0, len(text), step):
-        chunk = text[i:i + chunk_size]
+    for i in range(0, len(words), step):
+        chunk_words = words[i:i + chunk_size]
 
-        if i > 0:
-            # Move the beginning forward if it starts in the middle of a word
-            first_space = chunk.find(" ")
+        if not chunk_words:
+            break
 
-            if first_space != -1:
-                chunk = chunk[first_space + 1:]
+        chunk = " ".join(chunk_words)
+        chunks.append(chunk)
 
-        if chunk.strip():
-            chunks.append(chunk)
+        if i + chunk_size >= len(words):
+            break
 
     return chunks
 
 
 if __name__ == "__main__":
-    text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    text = """
+    Attendance Policy
+
+    Students must maintain a minimum attendance of 75% to be eligible
+    for semester examinations.
+
+    Students with attendance between 65% and 74% may apply for condonation
+    according to college rules.
+
+    Students below 65% attendance are normally not eligible for the
+    semester examination.
+    """
 
     chunks = chunk_text(
         text,
-        chunk_size=10,
-        overlap=2
+        chunk_size=20,
+        overlap=5
     )
 
-    print(chunks)
+    for chunk in chunks:
+        print("-----")
+        print(chunk)
