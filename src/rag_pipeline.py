@@ -7,14 +7,24 @@ from src.generator import generate_answer
 def ask(query, vector_store):
     results = retrieve(query, vector_store)
 
+    if not results:
+        return {
+            "answer": "I don't know based on the provided documents.",
+            "sources": []
+        }
+
     context = build_context(results)
 
     prompt = build_prompt(query, context)
 
     answer = generate_answer(prompt)
 
-    return answer
+    sources = list(set(result["source"] for result in results))
 
+    return {
+        "answer": answer,
+        "sources": sources
+    }
 
 if __name__ == "__main__":
     print("RAG pipeline module working")
