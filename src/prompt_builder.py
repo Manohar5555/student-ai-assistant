@@ -7,7 +7,6 @@ Answer the question using only the provided context.
 Rules:
 1. Do not use information that is not present in the context.
 2. If the answer cannot be found in the context, say "I don't know based on the provided documents."
-3. Mention the source document used for the answer.
 
 Context:
 {context}
